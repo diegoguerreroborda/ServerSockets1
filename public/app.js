@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
-      message: 'Hello Vue!'
+      message: '00:00'
     }
   })
 
@@ -16,7 +16,7 @@ socket.on('server/random', function(num){
 })
 
 function uploadTime(){
-    let time = document.getElementById("appt").value + ':00';
+    let time = document.getElementById("timeInput").value + ':00';
     console.log(time);
     //setInterval(function(){
     socket.emit('client/random', time)

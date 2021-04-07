@@ -9,11 +9,14 @@
   <title>Laboratorio N° 4</title>
 </head>
 <body>
-    <h1 id="app">{{ message }}</h1>
+    <h1 id="app" name="hour">{{ message }}</h1>
 
-    <input type="time" id="appt" name="appt" min="09:00" max="18:00" required>
 
-    <button class="button1" onClick="uploadTime()" >Cambiar</button>
+  <div id="appt" name="appt">
+    <input type="time" id="timeInput" min="09:00" max="18:00" required>
+
+    <button class="btn1" id="btn1" name="btn" onClick="uploadTime()" >Cambiar</button>
+  </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
