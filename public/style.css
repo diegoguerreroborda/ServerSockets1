@@ -108,3 +108,9 @@ body{
     font-size: 18px;
     color: white;
   }
+  
+  thead{
+    background-color: #363b40;
+    border-bottom: solid 5px #151e21;
+    color: white;
+  }
