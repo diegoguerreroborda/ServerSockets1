@@ -5,17 +5,19 @@ const bodyParser = require('body-parser');
 
 const app = express()
 app.use(bodyParser.json())
-//creando el server con http y express como handle request
 const server = http.createServer(app)
-//iniciando el server de socket.io
 const io = socketio(server)
 const PORT = process.argv[2] || 3000
 
-//middleware de express para archivos estaticos
 app.use(express.static('public'))
 
 //let currenTime = new Date();
 let hourGlobal = new Date();
+
+//Los datos para la tabla
+let dataTable = []
+//Tabla para el ajuste manuall
+let tableManualFixed = []
 
 function getDateTime() {
     //var date = new Date(currenTime);
@@ -30,6 +32,10 @@ function getDateTime() {
     
     hourGlobal.setSeconds(hourGlobal.getSeconds() + 2);
     return hour + ":" + min + ":" + sec;
+}
+
+function getHourString(hourC){
+    return `${hourC.getHours()}:${hourC.getMinutes()}:${hourC.getSeconds()}`;
 }
 
 function convertToDate(currentD){
@@ -64,17 +70,14 @@ io.on('connection', function (socket) {
     //recibiendo del cliente
     socket.on('client/random', (currentT) => {
         console.log(currentT)
+        tableManualFixed.push({oldHour: getHourString(hourGlobal), newHour: currentT})
         hourGlobal = convertToDate(currentT)
     })
 })
 
 app.post('/', (req, res) => {
     console.log(req.body.time)
-    //getDiference(req.body.time)
-    //Resta el que llega de el getDateTime()
-    //res.send('sdsd')
     let hourC = convertToDate(req.body.time);
-    //console.log('hourC', hourC)
     res.send(getDiference(hourC))
 })
 
@@ -82,34 +85,28 @@ app.post('/fixed', (req, res) => {
     console.log('fixed', req.body.time)
     let hourF = convertToDate(req.body.time);
     console.log('Hora que llega')
-    console.log(hourF.getHours())
-    console.log(hourF.getMinutes())
-    console.log(hourF.getSeconds())
-    console.log('::::::::::::::::')
+    console.log(`${hourF.getHours()}:${hourF.getMinutes()}:${hourF.getSeconds()}`)
     let desface = hourGlobal - hourF;
-    //console.log(hourGlobal)
-    //console.log(hourF)
-    console.log('Desface', desface)
-    //console.log(desface/60000)
+    //hourGlobal
+    console.log('Desface', desface/60000)
+    dataTable.push({localHour: getHourString(hourGlobal), ajuste: (desface/60000), newHour: getHourString(hourF)})
     hourGlobal.setHours(hourF.getHours())
     hourGlobal.setMinutes(hourF.getMinutes())
     hourGlobal.setSeconds(hourF.getSeconds())
-    console.log(hourGlobal.getHours())
-    console.log(hourGlobal.getMinutes())
-    console.log(hourGlobal.getSeconds())
-    //let r = desface/60000;
-    //hourGlobal = hourF;
-    //restar horas y enviar el desface
+    console.log(`${hourGlobal.getHours()}:${hourGlobal.getMinutes()}:${hourGlobal.getSeconds()}`)
+    res.json(desface/60000)
+})
 
-    //No permite enviar números
-    res.send('Listo perros')
+app.get('/list_data', (req, res) => {
+    console.log(dataTable)
+    res.send(dataTable)
+})
 
-    //console.log('hourC', hourC)
-    //res.send(getDiference(hourC))
+app.get('/list_fixed_hour', (req, res) => {
+    console.log(tableManualFixed)
+    res.send(tableManualFixed)
 })
 
 server.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`)
 })
-
-//Cuando pasa de una hora a otra se pone una hora mas de lo que es.

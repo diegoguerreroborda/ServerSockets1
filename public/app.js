@@ -3,7 +3,7 @@ var app = new Vue({
     data: {
       message: '00:00'
     }
-  })
+})
 
 var socket = io()
 //enviando
