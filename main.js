@@ -16,8 +16,6 @@ let hourGlobal = new Date();
 
 //Los datos para la tabla
 let dataTable = []
-//Tabla para el ajuste manuall
-let tableManualFixed = []
 
 function getDateTime() {
     //var date = new Date(currenTime);
@@ -62,15 +60,19 @@ function getDiference(hourC){
 }
 
 io.on('connection', function (socket) {
+    //socket.disconnected = true;
+    //socket.connected = false;
     console.log(`client: ${socket.id}`)
+    console.log(socket)
     //enviando al cliente
     setInterval(() => {
         socket.emit('server/random', getDateTime())
+        socket.emit('server/list_data_fixed', dataTable)
     }, 2000)
     //recibiendo del cliente
     socket.on('client/random', (currentT) => {
         console.log(currentT)
-        tableManualFixed.push({oldHour: getHourString(hourGlobal), newHour: currentT})
+        dataTable.push({oldHour: getHourString(hourGlobal), newHour: currentT})
         hourGlobal = convertToDate(currentT)
     })
 })
@@ -89,7 +91,7 @@ app.post('/fixed', (req, res) => {
     let desface = hourGlobal - hourF;
     //hourGlobal
     console.log('Desface', desface/60000)
-    dataTable.push({localHour: getHourString(hourGlobal), ajuste: (desface/60000), newHour: getHourString(hourF)})
+    dataTable.push({oldHour: getHourString(hourGlobal), ajuste: (desface/60000), newHour: getHourString(hourF)})
     hourGlobal.setHours(hourF.getHours())
     hourGlobal.setMinutes(hourF.getMinutes())
     hourGlobal.setSeconds(hourF.getSeconds())
@@ -101,11 +103,12 @@ app.get('/list_data', (req, res) => {
     console.log(dataTable)
     res.send(dataTable)
 })
-
+/*
 app.get('/list_fixed_hour', (req, res) => {
     console.log(tableManualFixed)
     res.send(tableManualFixed)
 })
+*/
 
 server.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`)

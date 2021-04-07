@@ -77,3 +77,34 @@ body{
 	background-color: #363b40;
 	color: white;
   }
+
+  table{
+    width: 40%;
+    padding: 30px;
+    background: #24303c;
+    background-color: #252c32;
+    margin: auto;
+    font-size: 13px;
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 7px 13px 37px #000;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  th{
+    color: white;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  td{
+    width: 100%;
+    background: #24303c;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    font-family: 'calibri';
+    font-size: 18px;
+    color: white;
+  }

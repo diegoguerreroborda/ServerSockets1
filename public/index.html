@@ -18,6 +18,19 @@
     <button class="btn1" id="btn1" name="btn" onClick="uploadTime()" >Cambiar</button>
   </div>
 
+  <div class="divTable" id="app-2">
+    <table>
+      <thead>
+          <tr>
+              <th>Hora Local</th><th>Ajuste</th><th>Nueva Hora</th>
+          </tr>
+      </thead>
+      <tr class="list-group-item" v-for="data in data_hours">
+        <td>{{ data.localHour }}</td><td>{{ data.ajuste }}</td><td>{{ data.newHour }}</td>
+      </tr>
+    </table>
+</div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
 </body>
