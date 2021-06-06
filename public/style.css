@@ -5,9 +5,8 @@
     --shadow: rgba(13,39,80,.26);
 }
 body{
-    min-height: 100vh;
 	background: var(--bg);
-    overflow: hidden;
+  overflow: scroll;
 	margin: auto;
 }
 
@@ -38,8 +37,12 @@ body{
     color: #5d5d5d;
 }
 
-#appt{
-	display: block;
+#appt {
+  display: block;
+  font-weight: 100;
+  text-align: center;
+  font-family: 'Bellota', cursive;
+  margin-top:30px;
 }
 
 .btn1 {
@@ -78,7 +81,7 @@ body{
 	color: white;
   }
 
-  table{
+  .table1{
     width: 40%;
     padding: 30px;
     background: #24303c;
@@ -90,6 +93,7 @@ body{
     box-shadow: 7px 13px 37px #000;
     margin-top: 30px;
     margin-bottom: 30px;
+    overflow: scroll;
   }
 
   th{
@@ -106,11 +110,5 @@ body{
     margin-bottom: 16px;
     font-family: 'calibri';
     font-size: 18px;
-    color: white;
-  }
-  
-  thead{
-    background-color: #363b40;
-    border-bottom: solid 5px #151e21;
     color: white;
   }
